@@ -1,20 +1,28 @@
-from django.db.models import fields
 from events.models import Events, Rooms, Users
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ('username')
+        fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
-    users = UserSerializer(many=True, read_only=True)
+    users = UserSerializer(required=True, many=True)
     class Meta:
         model = Events
-        fields = ('summary', 'start_time', 'end_time', 'users')
+        fields = '__all__'
 
 class RoomSerializer(serializers.ModelSerializer):
-    evnets = EventSerializer(many=True, read_only=True)
+    events = EventSerializer(required=True, many=True)
     class Meta:
         model = Rooms
-        fields = ('name', 'evnets')
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        for event_data in validated_data.pop("events"):
+            event_data["room"] = instance
+            event = Events.objects.create(**event_data)
+            for user_data in event_data.pop("users"):
+                user_data["event"] = event
+                Users.objects.create(**user_data)
+        return instance
