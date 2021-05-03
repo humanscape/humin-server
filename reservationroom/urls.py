@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from batch_tasks import views as batch_task_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('update/', batch_task_view.get, name='update')
 ]
