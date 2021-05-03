@@ -9,6 +9,7 @@ class Events(models.Model):
     summary = models.CharField(max_length=200)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    users = models.ManyToManyField('Users', through='EventUserMappings')
 
 class Users(models.Model):
     username = models.CharField(max_length=20)
