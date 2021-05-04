@@ -20,9 +20,8 @@ class RoomSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         for event_data in validated_data.pop("events"):
-            event_data["room"] = instance
-            event = Events.objects.create(**event_data)
-            for user_data in event_data.pop("users"):
-                user_data["event"] = event
-                Users.objects.create(**user_data)
+            users = event_data.pop("users")
+            event = Events.objects.create(room=instance, **event_data)
+            for user_data in users:
+                Users.objects.create(event=event, **user_data)
         return instance
