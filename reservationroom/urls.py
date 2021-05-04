@@ -24,6 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('update/', batch_task_view.get, name='update'),
     path('event/', event_view.list, name='event_list'),
-    path('event/<room_name>', event_view.retrieve, name='event_retrieve'),
-    path('event/first/<room_name>', event_view.retrieve_first, name='event_retrieve_first')
+    path('event/<room_name>/', event_view.retrieve, name='event_retrieve'),
+    path('event/first/<room_name>/', event_view.retrieve_first, name='event_retrieve_first')
 ]
