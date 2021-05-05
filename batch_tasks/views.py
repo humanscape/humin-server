@@ -8,8 +8,8 @@ import jwt
 import json
 import requests
 import datetime
-
-from requests.models import Response
+from django.utils import timezone
+from dateutil.parser import parse
 
 def get_signed_jwt(token_json):
     private_key_id = token_json.get("private_key_id")
@@ -57,7 +57,7 @@ def get_event_list(calendar_id):
         if response.json().get("items") is not None:
             for event in response.json().get("items"):
                 users = list()
-                if event.get("status")!="cancelled":
+                if event.get("status")!="cancelled" and parse(event.get("end").get("dateTime"))>=timezone.now():
                     for user in event.get("attendees"):
                         users.append({"username": user.get("email")})
                     result.append({
@@ -75,7 +75,8 @@ def get(request):
     for room in Rooms.objects.all():
         event_list = get_event_list(room.calendar_id)
         if event_list:
+            event_list.sort(key=lambda event: event["end_time"])
             room_serializer = RoomSerializer(instance=room, data={"events": event_list}, partial=True)
-            room_serializer.is_valid(raise_exception=True)
-            room_serializer.save()
+            if room_serializer.is_valid(raise_exception=True):
+                room_serializer.save()
     return HttpResponse("Success")
