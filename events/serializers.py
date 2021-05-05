@@ -7,13 +7,13 @@ class UserSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
-    users = UserSerializer(required=True, many=True)
+    users = UserSerializer(many=True)
     class Meta:
         model = Events
         fields = '__all__'
 
 class RoomSerializer(serializers.ModelSerializer):
-    events = EventSerializer(required=True, many=True)
+    events = EventSerializer(many=True)
     class Meta:
         model = Rooms
         fields = '__all__'
