@@ -1,8 +1,6 @@
 from events.serializers import RoomSerializer
-from rest_framework import serializers
 from events.models import Events, Rooms
-from django.http.response import HttpResponse, HttpResponseServerError
-from django.shortcuts import render
+from django.http.response import HttpResponse
 import time
 import jwt
 import json
