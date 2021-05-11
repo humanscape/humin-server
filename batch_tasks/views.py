@@ -5,7 +5,6 @@ import time
 import jwt
 import json
 import requests
-import datetime
 from django.utils import timezone
 from dateutil.parser import parse
 
