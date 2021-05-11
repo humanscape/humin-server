@@ -15,11 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls.conf import include
 from batch_tasks import views as batch_task_view
 from events import views as event_view
 from users import views as user_view
-from rest_framework import routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
