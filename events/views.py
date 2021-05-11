@@ -10,19 +10,15 @@ def get_query_set():
     return query_set
 
 def list(request):
-    global query_set
     room_serializer = RoomSerializer(instance=get_query_set(), many=True)
     return JsonResponse(room_serializer.data, safe=False)
 
 def retrieve(request, room_name):
-    global query_set
-    print(query_set)
     query_set = get_query_set().filter(name=room_name)
     room_serializer = RoomSerializer(instance=query_set, many=True)
     return JsonResponse(room_serializer.data, safe=False)
 
 def retrieve_first(request, room_name):
-    global query_set
     query_set = get_query_set().filter(name=room_name).first()
     room_serializer = RoomSerializer(instance=query_set)
     return JsonResponse(room_serializer.data, safe=False)
