@@ -21,3 +21,4 @@ def search(request, keyword):
     query_set = get_query_set().filter(email__contains=keyword)
     user_serializer = UserSerializer(instance=query_set, many=True)
     return JsonResponse(user_serializer.data, safe=False)
+    
