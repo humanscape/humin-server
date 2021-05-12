@@ -14,8 +14,3 @@ def retrieve(request, room_name):
     query_set = get_query_set().filter(name=room_name).first()
     room_serializer = RoomSerializer(instance=query_set)
     return JsonResponse(room_serializer.data, safe=False)
-
-def retrieve_first(request, room_name):
-    query_set = get_query_set().filter(name=room_name).first()
-    room_serializer = RoomSerializer(instance=query_set)
-    return JsonResponse(room_serializer.data, safe=False)
