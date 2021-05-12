@@ -54,11 +54,15 @@ def get_event_list(calendar_id):
         if response.json().get("items") is not None:
             for event in response.json().get("items"):
                 users = list()
+                if event.get("summary"):
+                    summary = event.get("summary")
+                else:
+                    summary = "제목없음"
                 if event.get("status")!="cancelled" and parse(event.get("end").get("dateTime"))>=timezone.now():
                     for user in event.get("attendees"):
                         users.append({"username": user.get("email")})
                     result.append({
-                        "summary": event.get("summary"),
+                        "summary": summary,
                         "start_time": event.get("start").get("dateTime"),
                         "end_time": event.get("end").get("dateTime"),
                         "users": users
@@ -74,6 +78,11 @@ def get(request):
         if event_list:
             event_list.sort(key=lambda event: event["end_time"])
             room_serializer = RoomSerializer(instance=room, data={"events": event_list}, partial=True)
-            if room_serializer.is_valid(raise_exception=True):
-                room_serializer.save()
+            try:
+                if room_serializer.is_valid(raise_exception=True):
+                    room_serializer.save()
+            except Exception as e:
+                print("데이터 저장 중 오류 발생")
+                print(e)
+                print(event_list)
     return HttpResponse("Success")
