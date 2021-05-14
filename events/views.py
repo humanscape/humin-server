@@ -1,12 +1,8 @@
 from django.http.response import JsonResponse
 from events.serializers import RoomSerializer
-from events.models import Events, Rooms
-from django.utils import timezone
-from django.db.models import OuterRef, Subquery
+from events.models import Rooms
 
 def get_query_set():
-    # filtered_events = Events.objects.filter(start_time__gte=timezone.now(), room=OuterRef("id"))
-    # query_set = Rooms.objects.all().annotate(filtered_events=Subquery(filtered_events))
     query_set = Rooms.objects.all()
     return query_set
     
