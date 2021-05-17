@@ -26,5 +26,6 @@ urlpatterns = [
     path('event/<room_name>/', event_view.retrieve, name='event_retrieve'),
     path('user/', user_view.list, name='user_list'),
     path('user/<email>/', user_view.retrieve, name='user_retrieve'),
-    path('user/search/<keyword>/', user_view.search, name='user_search')
+    path('user/search/<keyword>/', user_view.search, name='user_search'),
+    path('user/organization/<organization>/', user_view.list_by_organization, name='user_list_by_org')
 ]
