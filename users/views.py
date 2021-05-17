@@ -22,3 +22,13 @@ def search(request, keyword):
     user_serializer = UserSerializer(instance=query_set, many=True)
     return JsonResponse(user_serializer.data, safe=False)
     
+
+def list_by_organization(request, organization):
+    if organization=='humanscape.io':
+        query_set = get_query_set().filter(organization=1)
+    elif organization=='mmtalk.kr':
+        query_set = get_query_set().filter(organization=2)
+    else:
+        query_set = get_query_set().none()
+    user_serializer = UserSerializer(instance=query_set, many=True)
+    return JsonResponse(user_serializer.data, safe=False)
