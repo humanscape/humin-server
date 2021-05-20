@@ -20,12 +20,11 @@ from events import views as event_view
 from users import views as user_view
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('update/', batch_task_view.get, name='update'),
-    path('event/', event_view.list, name='event_list'),
-    path('event/<room_name>/', event_view.retrieve, name='event_retrieve'),
-    path('user/', user_view.list, name='user_list'),
-    path('user/<email>/', user_view.retrieve, name='user_retrieve'),
-    path('user/search/<keyword>/', user_view.search, name='user_search'),
-    path('user/organization/<organization>/', user_view.list_by_organization, name='user_list_by_org')
+    path('api/update/', batch_task_view.get, name='update'),
+    path('api/event/', event_view.list, name='event_list'),
+    path('api/event/<room_name>/', event_view.retrieve, name='event_retrieve'),
+    path('api/user/', user_view.list, name='user_list'),
+    path('api/user/<email>/', user_view.retrieve, name='user_retrieve'),
+    path('api/user/search/<keyword>/', user_view.search, name='user_search'),
+    path('api/user/organization/<organization>/', user_view.list_by_organization, name='user_list_by_org')
 ]
