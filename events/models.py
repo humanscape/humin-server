@@ -9,6 +9,6 @@ class Event(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 
-class Users(models.Model):
+class User(models.Model):
     username = models.CharField(max_length=100)
     event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True, related_name='users')

@@ -1,11 +1,9 @@
 from users.serializers import UserSerializer
 from django.http.response import JsonResponse
-from events.models import Users
-from django.shortcuts import render
-from users.models import Users
+from users.models import User
 
 def get_query_set():
-    query_set = Users.objects.all()
+    query_set = User.objects.all()
     return query_set
 
 def list(request):

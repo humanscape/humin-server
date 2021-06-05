@@ -1,9 +1,9 @@
-from events.models import Event, Room, Users
+from events.models import Event, Room, User
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Users
+        model = User
         fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
@@ -23,7 +23,7 @@ class RoomSerializer(serializers.ModelSerializer):
             users = event_data.pop("users")
             event = Event.objects.create(room=instance, **event_data)
             for user_data in users:
-                Users.objects.create(event=event, **user_data)
+                User.objects.create(event=event, **user_data)
         return instance
 
 class RoomNameSerializer(serializers.ModelSerializer):
