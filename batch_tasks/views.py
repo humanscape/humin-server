@@ -1,5 +1,5 @@
-from events.serializers import RoomSerializer
-from events.models import Events, Rooms
+from events.serializers import Roomerializer
+from events.models import Events, Room
 from django.http.response import HttpResponse
 import time
 import jwt
@@ -73,11 +73,11 @@ def get_event_list(calendar_id):
 # 이후 핸들링 코드 추가 시 etag로 event판별해서 update하는 방식으로 진행
 def get(request):
     Events.objects.all().delete()
-    for room in Rooms.objects.all():
+    for room in Room.objects.all():
         event_list = get_event_list(room.calendar_id)
         if event_list:
             event_list.sort(key=lambda event: event["end_time"])
-            room_serializer = RoomSerializer(instance=room, data={"events": event_list}, partial=True)
+            room_serializer = Roomerializer(instance=room, data={"events": event_list}, partial=True)
             try:
                 if room_serializer.is_valid(raise_exception=True):
                     room_serializer.save()

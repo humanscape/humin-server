@@ -1,4 +1,4 @@
-from events.models import Events, Rooms, Users
+from events.models import Events, Room, Users
 from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,10 +12,10 @@ class EventSerializer(serializers.ModelSerializer):
         model = Events
         fields = '__all__'
 
-class RoomSerializer(serializers.ModelSerializer):
+class Roomerializer(serializers.ModelSerializer):
     events = EventSerializer(many=True)
     class Meta:
-        model = Rooms
+        model = Room
         fields = '__all__'
 
     def update(self, instance, validated_data):
@@ -29,5 +29,5 @@ class RoomSerializer(serializers.ModelSerializer):
 class RoomNameSerializer(serializers.ModelSerializer):
     
     class Meta:
-        model = Rooms
+        model = Room
         fields = ('name',)
