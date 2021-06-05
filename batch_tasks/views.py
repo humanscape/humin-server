@@ -1,5 +1,5 @@
 from events.serializers import RoomSerializer
-from events.models import Events, Rooms
+from events.models import Event, Room
 from django.http.response import HttpResponse
 import time
 import jwt
@@ -72,8 +72,8 @@ def get_event_list(calendar_id):
 # 일단 업데이트 시마다 event table 초기화 후 insert 하는 방식으로 진행
 # 이후 핸들링 코드 추가 시 etag로 event판별해서 update하는 방식으로 진행
 def get(request):
-    Events.objects.all().delete()
-    for room in Rooms.objects.all():
+    Event.objects.all().delete()
+    for room in Room.objects.all():
         event_list = get_event_list(room.calendar_id)
         if event_list:
             event_list.sort(key=lambda event: event["end_time"])

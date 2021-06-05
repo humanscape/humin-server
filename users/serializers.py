@@ -1,8 +1,6 @@
-from django.db.models import fields
-from events.models import Users
 from rest_framework import serializers
-from users.models import Users
+from users.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Users
+        model = User
         fields = '__all__'

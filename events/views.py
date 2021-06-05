@@ -1,9 +1,9 @@
 from django.http.response import JsonResponse
 from events.serializers import RoomNameSerializer, RoomSerializer
-from events.models import Rooms
+from events.models import Room
 
 def get_query_set():
-    query_set = Rooms.objects.all()
+    query_set = Room.objects.all()
     return query_set
     
 def get_full_roomnames(request):
