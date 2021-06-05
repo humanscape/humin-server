@@ -25,3 +25,9 @@ class RoomSerializer(serializers.ModelSerializer):
             for user_data in users:
                 Users.objects.create(event=event, **user_data)
         return instance
+
+class RoomNameSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Rooms
+        fields = ('name',)
