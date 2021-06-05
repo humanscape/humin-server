@@ -12,7 +12,7 @@ class EventSerializer(serializers.ModelSerializer):
         model = Events
         fields = '__all__'
 
-class Roomerializer(serializers.ModelSerializer):
+class RoomSerializer(serializers.ModelSerializer):
     events = EventSerializer(many=True)
     class Meta:
         model = Room

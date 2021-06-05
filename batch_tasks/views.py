@@ -1,4 +1,4 @@
-from events.serializers import Roomerializer
+from events.serializers import RoomSerializer
 from events.models import Events, Room
 from django.http.response import HttpResponse
 import time
@@ -77,7 +77,7 @@ def get(request):
         event_list = get_event_list(room.calendar_id)
         if event_list:
             event_list.sort(key=lambda event: event["end_time"])
-            room_serializer = Roomerializer(instance=room, data={"events": event_list}, partial=True)
+            room_serializer = RoomSerializer(instance=room, data={"events": event_list}, partial=True)
             try:
                 if room_serializer.is_valid(raise_exception=True):
                     room_serializer.save()
