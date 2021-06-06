@@ -36,13 +36,47 @@ Mac 기본 Python3 버전이 3.8.5 라면 진행할 필요없습니다.
    - [pgAdmin4](https://www.pgadmin.org/) 를 설치합니다.
 
 ### PR 올리기 전 확인 사항
-1. Swagger Test
-   - 새로 구현한 API 가 있다면 Swagger 를 통해 **반드시** 확인합니다.
-   - 적어도 다음 사항들은 확인해주세요.
-      - test code 통과 여부
-      - Exception Case 에 대한 핸들링
+1. Test
+   - 새로 구현한 API 가 있다면 test 를 통해 **반드시** 확인합니다.
+   ```
+   $ coverage run manage.py test
+   ```
+   - Exception Case 에 대한 핸들링
 
 2. Export requirements.txt 
    - 새로 설치한 package 가 있다면, requirements 를 새로 export 합니다.
       ```
       $ pip freeze > requirements.txt
+      ```
+      
+### Test Coverage
+```
+Name                                 Stmts   Miss  Cover
+--------------------------------------------------------
+batch_tasks/__init__.py                  0      0   100%
+batch_tasks/migrations/__init__.py       0      0   100%
+batch_tasks/tests.py                     1      0   100%
+batch_tasks/views.py                    58     45    22%
+events/__init__.py                       0      0   100%
+events/admin.py                          1      0   100%
+events/apps.py                           4      0   100%
+events/migrations/__init__.py            0      0   100%
+events/models.py                        12      0   100%
+events/serializers.py                   27      6    78%
+events/tests.py                          1      0   100%
+events/views.py                         16      9    44%
+manage.py                               12      2    83%
+reservationroom/__init__.py              0      0   100%
+reservationroom/settings.py             25      0   100%
+reservationroom/urls.py                  6      0   100%
+users/__init__.py                        0      0   100%
+users/admin.py                           1      0   100%
+users/apps.py                            4      0   100%
+users/migrations/__init__.py             0      0   100%
+users/models.py                          5      0   100%
+users/serializers.py                     6      0   100%
+users/tests.py                           1      0   100%
+users/views.py                          25     17    32%
+--------------------------------------------------------
+TOTAL                                  205     79    61%
+```
