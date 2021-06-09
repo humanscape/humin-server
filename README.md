@@ -53,13 +53,11 @@ Mac 기본 Python3 버전이 3.8.5 라면 진행할 필요없습니다.
 ```
 Name                          Stmts   Miss  Cover
 -------------------------------------------------
-batch_tasks/tests.py              1      0   100%
 batch_tasks/views.py             58     45    22%
 events/admin.py                   3      0   100%
 events/apps.py                    4      0   100%
 events/models.py                 12      0   100%
 events/serializers.py            27      6    78%
-events/tests.py                   1      0   100%
 events/views.py                  16      9    44%
 manage.py                        12      2    83%
 reservationroom/settings.py      26      0   100%
@@ -68,10 +66,9 @@ users/admin.py                    3      0   100%
 users/apps.py                     4      0   100%
 users/models.py                   6      0   100%
 users/serializers.py              6      0   100%
-users/tests.py                    8      0   100%
 users/views.py                   25     11    56%
 -------------------------------------------------
-TOTAL                           218     73    67%
+TOTAL                           208     73    65%
 ```
 
 ## 서버 배포
