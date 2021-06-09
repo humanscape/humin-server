@@ -20,6 +20,7 @@ from events import views as event_view
 from users import views as user_view
 
 urlpatterns = [
+    path('api/admin/', admin.site.urls),
     path('api/update/', batch_task_view.get, name='update'),
     path('api/room/', event_view.get_full_roomnames, name='roomname_list'),
     path('api/event/', event_view.list, name='event_list'),
