@@ -210,9 +210,6 @@ events {
 
 
 http {
-        upstream django {
-                server unix:/run/uwsgi/humin.sock;
-        }
     include       mime.types;
     default_type  application/octet-stream;
 
@@ -245,9 +242,14 @@ http {
         }
 
         location /api {
-                uwsgi_pass django;
-                include /etc/nginx/uwsgi_params;
+                proxy_set_header Host $http_host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+                proxy_redirect off;
+                proxy_pass http://unix:/run/uwsgi/humin.sock;
         }
+
 
         #error_page  404              /404.html;
 
@@ -296,39 +298,18 @@ ssl_ciphers "ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECD
 
 
 10. Nginx 연동
-
-nginx와 연동하기 위한 humin.ini파일을 /etc/uwsgi/sites 경로에 생성합니다.
-
+/etc/systemd/system/humin.service 파일을 아래와 같이 생성합니다.
 (대괄호 속 내용은 사용자의 설정에 맞춰 입력합니다.)
-uwsgi
-```conf
-[uwsgi]
-chdir = {PROJECT_PWD}
-module = reservationroom.wsgi
-home = {PROJECT_PWD}/.venv
-
-master = true
-processes = 10
-logto = /var/log/uwsgi/@(exec://date +%%Y-%%m-%%d).log
-log-reopen = true
-
-socket = /run/uwsgi/humin.sock
-chmod-socket = 666
-vacuum = true
-```
-
-/etc/systemd/system/uwsgi.service 파일을 아래와 같이 생성합니다.
 ```conf
 [Unit]
-Description=uWSGI service
+Description=Gunicorn instance to serve humin
+After=network.target
 
 [Service]
-ExecStartPre=/bin/mkdir -p /run/uwsgi
-ExecStartPre=/bin/chown root:nginx /run/uwsgi
-ExecStart={PROJECT_PWD}/.venv/bin/uwsgi --emperor /etc/uwsgi/sites
-Restart=always
-Type=notify
-NotifyAccess=all
+User=root
+WorkingDirectory={PROJECT_PWD}
+Environment="PATH={PROJECT_PWD}/.venv/bin"
+ExecStart={PROJECT_PWD}/.venv/bin/gunicorn --bind unix:/run/uwsgi/humin.sock reservationroom.wsgi --access-logfile access.log --workers 2
 
 [Install]
 WantedBy=multi-user.target
