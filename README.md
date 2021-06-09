@@ -314,3 +314,16 @@ ExecStart={PROJECT_PWD}/.venv/bin/gunicorn --bind unix:/run/uwsgi/humin.sock res
 [Install]
 WantedBy=multi-user.target
 ```
+
+static file을 웹에서 불러올 수 있도록 설정합니다.
+```
+$ python manage.py collectstatic
+$ cp -r /tmp/www/humin/static/* /usr/share/nginx/html/static/
+```
+
+nginx와 humin service를 시작합니다
+```
+$ systemctl daemon-reload
+$ service nginx restart
+$ service humin restart
+```
