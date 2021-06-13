@@ -12,3 +12,6 @@ class User(models.Model):
     name = models.CharField(max_length=20, null=True)
     # human = 1, mommy = 2
     organization = models.IntegerField(default=0, choices=ORGANIZATION_TYPE)
+
+    def __str__(self):
+        return f'{self.name} / {self.email} / {self.ORGANIZATION_TYPE[self.organization][1]}'
