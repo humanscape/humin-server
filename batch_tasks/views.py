@@ -7,6 +7,7 @@ import json
 import requests
 from django.utils import timezone
 from dateutil.parser import parse
+from urllib import parse as url_parse
 
 def get_signed_jwt(token_json):
     private_key_id = token_json.get("private_key_id")
@@ -40,8 +41,8 @@ def get_access_token():
 
 def get_event_list(calendar_id):
     access_token = get_access_token()
-    curtime = time.strftime('%Y-%m-%dT00:00:00z', time.localtime(time.time()))
-    URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events'+'?timeMin='+curtime
+    curtime = time.strftime('%Y-%m-%dT%H:%M:00+09:00', time.localtime(time.time()))
+    URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events?'+'timeMin='+url_parse.quote(curtime)
     request_header = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + access_token,
