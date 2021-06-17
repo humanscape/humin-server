@@ -5,9 +5,7 @@ import time
 import jwt
 import json
 import requests
-from django.utils import timezone
-from dateutil.parser import parse
-from urllib import parse as url_parse
+from urllib import parse
 
 def get_signed_jwt(token_json):
     private_key_id = token_json.get("private_key_id")
@@ -41,8 +39,8 @@ def get_access_token():
 
 def get_event_list(calendar_id):
     access_token = get_access_token()
-    curtime = time.strftime('%Y-%m-%dT%H:%M:00+09:00', time.localtime(time.time()))
-    URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events?'+'timeMin='+url_parse.quote(curtime)
+    curtime = time.strftime('%Y-%m-%dT%H:%M:%S+09:00', time.localtime(time.time()))
+    URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events?'+'ordery=startTime&singleEvents=True&'+'timeMin='+parse.quote(curtime)
     request_header = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + access_token,
@@ -59,7 +57,7 @@ def get_event_list(calendar_id):
                     summary = event.get("summary")
                 else:
                     summary = "제목없음"
-                if event.get("status")!="cancelled" and parse(event.get("end").get("dateTime"))>=timezone.now():
+                if event.get("status")!="cancelled":
                     for user in event.get("attendees"):
                         users.append({"username": user.get("email")})
                     result.append({
