@@ -177,19 +177,6 @@ humin 구동에 필요한 데이터 users_user, events_room의 데이터를 impo
 
 Nginx에 SSL 설정을 추가합니다.
 
-Diffie-Hellman Key 생성
-```
-$ openssl dhparam -out /etc/nginx/conf.d/ssl-dhparams.pem 4096
-```
-
-ssl key 변경
-
-/etc/letsencrypt에서 해당 명령어를 실행합니다.
-```
-$ mv ssl-dhparams.pem  ssl-dhparams.pem.letsencrypt
-$ cp -rp /etc/nginx/conf.d/ssl-dhparams.pem /etc/letsencrypt/
-```
-
 /etc/nginx/nginx.conf 파일 수정
 
 ```conf
