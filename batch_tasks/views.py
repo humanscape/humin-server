@@ -39,8 +39,10 @@ def get_access_token():
 
 def get_event_list(calendar_id):
     access_token = get_access_token()
-    curtime = time.strftime('%Y-%m-%dT%H:%M:%S+09:00', time.localtime(time.time()))
-    URL = 'https://www.googleapis.com/calendar/v3/calendars/'+calendar_id +'/events?'+'ordery=startTime&singleEvents=True&'+'timeMin='+parse.quote(curtime)
+    now = time.localtime(time.time())
+    timeMin = time.strftime('%Y-%m-%dT%H:%M:%S+09:00', now)
+    timeMax = time.strftime(f'%Y-{now.tm_mon+1}-%dT%H:%M:%S+09:00', now)
+    URL = f'https://www.googleapis.com/calendar/v3/calendars/{calendar_id}/events?orderBy=startTime&singleEvents=True&timeMin={parse.quote(timeMin)}&timeMax={parse.quote(timeMax)}'
     request_header = {
         "Content-Type": "application/json",
         "Authorization": "Bearer " + access_token,
