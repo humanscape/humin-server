@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'events',
-    'users'
+    'users',
+    'batch_tasks'
 ]
 
 MIDDLEWARE = [
