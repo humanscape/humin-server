@@ -7,6 +7,7 @@ import json
 import requests
 from urllib import parse
 from django.core.management.base import BaseCommand
+from django.db import transaction
 
 class Command(BaseCommand):
     
@@ -76,6 +77,7 @@ class Command(BaseCommand):
                         })
                 return result
 
+    @transaction.atomic
     def handle(self, *args, **options):
         help = 'get google calendar events'
         Event.objects.all().delete()
