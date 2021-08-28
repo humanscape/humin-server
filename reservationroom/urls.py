@@ -21,13 +21,15 @@ from events import views as event_view
 from users import views as user_view
 import debug_toolbar
 from django.conf import settings
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register("event", event_view.EventViewSet)
 
 urlpatterns = [
+    path("api/", include(router.urls)),
     path("api/admin/", admin.site.urls),
     path("api/update/", batch_task_view.get, name="update"),
-    path("api/room/", event_view.get_full_roomnames, name="roomname_list"),
-    path("api/event/", event_view.list, name="event_list"),
-    path("api/event/<room_name>/", event_view.retrieve, name="event_retrieve"),
     path("api/user/", user_view.list, name="user_list"),
     path("api/user/<email>/", user_view.retrieve, name="user_retrieve"),
     path("api/user/search/<keyword>/", user_view.search, name="user_search"),

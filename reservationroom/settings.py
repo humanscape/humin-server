@@ -30,9 +30,7 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG", default=False)
-
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -83,6 +81,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "reservationroom.wsgi.application"
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -98,7 +99,6 @@ DATABASES = {
         "ATOMIC_REQUESTS": True,
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
