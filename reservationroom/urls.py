@@ -15,18 +15,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls.conf import include
 from batch_tasks import views as batch_task_view
 from events import views as event_view
 from users import views as user_view
+import debug_toolbar
+from django.conf import settings
 
 urlpatterns = [
-    path('api/admin/', admin.site.urls),
-    path('api/update/', batch_task_view.get, name='update'),
-    path('api/room/', event_view.get_full_roomnames, name='roomname_list'),
-    path('api/event/', event_view.list, name='event_list'),
-    path('api/event/<room_name>/', event_view.retrieve, name='event_retrieve'),
-    path('api/user/', user_view.list, name='user_list'),
-    path('api/user/<email>/', user_view.retrieve, name='user_retrieve'),
-    path('api/user/search/<keyword>/', user_view.search, name='user_search'),
-    path('api/user/organization/<organization>/', user_view.list_by_organization, name='user_list_by_org')
+    path("api/admin/", admin.site.urls),
+    path("api/update/", batch_task_view.get, name="update"),
+    path("api/room/", event_view.get_full_roomnames, name="roomname_list"),
+    path("api/event/", event_view.list, name="event_list"),
+    path("api/event/<room_name>/", event_view.retrieve, name="event_retrieve"),
+    path("api/user/", user_view.list, name="user_list"),
+    path("api/user/<email>/", user_view.retrieve, name="user_retrieve"),
+    path("api/user/search/<keyword>/", user_view.search, name="user_search"),
+    path(
+        "api/user/organization/<organization>/",
+        user_view.list_by_organization,
+        name="user_list_by_org",
+    ),
 ]
+if settings.DEBUG:
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ]
